@@ -1,12 +1,12 @@
 var express = require("express");
 var app = express();
 var path =require("path");
-var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 
 var {handleError, requestQuandl} = require("./util_helpers.js");
 
-mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connect("mongodb://localhost/stock-data");
+
 var Spot = require('./models/spot');
 
 app.use(function(req, res, next){
@@ -18,11 +18,24 @@ app.use(function(req, res, next){
 });
 
 app.use(express.static(__dirname + '/frontend/public'));
-app.use(bodyParser.json({type:'*/*'}));
 
 //index route
-app.get("/api/spots", function(request, response){		
-	response.json({status: 'ok'});
+app.get("/api/stockdata", function(request, response){			
+	requestQuandl('', function(error, res, body){
+		if(error){
+			handleError(response, error, 'YELP');
+		}else{
+			body = JSON.parse(body);						
+			if(body.errors){
+				var error = {
+					stack: body.errors
+				}
+				handleError(response, error, 'QUANDL');
+			}else{
+				response.json({data: body.dataset.data})				
+			}
+		}
+	});
 });
 
 app.get('*', function (request, response){		

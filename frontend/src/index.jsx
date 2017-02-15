@@ -11,6 +11,8 @@ require('style!css!sass!applicationStyles');
 import RootReducer from 'reducers/RootReducer';
 
 import Main from 'components/Main';
+import IndexPage from 'components/IndexPage';
+import NotFound404 from 'components/NotFound404';
 
 var createStoreWithMiddleware = applyMiddleware(ReduxThunk)(createStore);
 var store = createStoreWithMiddleware(RootReducer);
@@ -20,16 +22,9 @@ ReactDOM.render(
 		<Router history={browserHistory}>
 			<Route path="/" component={Main}>
 				<IndexRoute component={IndexPage} />				
-				<Route path='search' component={SearchPage}>
-					<Route path='?term=:term&page=:page&sort=:sort' component={SearchPage} />					
-				</Route>				
-				
-				<Route path='signup' component={Signup}/>
-				<Route path='signin' component={Signin}/>				
-
 			 	<Route path='404' component={NotFound404} />
 				<Route path='*' component={NotFound404} />
 			</Route>
-		</Router>		
+		</Router>				
 	</Provider>
   , document.querySelector('#app'));
