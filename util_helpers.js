@@ -16,11 +16,12 @@ module.exports = {
 	},	
 	
 	requestQuandl: function(parameters, callback) {
-		var stockCode = 'AAPL';
-		var startDate = '1997-05-01';
-		var endDate = '1997-07-01';		
+		var stockCode = parameters.stockCode;
+		// var startDate = ;
+		// var endDate = '1997-07-01';		
 		var columnIndex = 4;		
-		var params = 'start_date=' + startDate + '&end_date=' + endDate + '&column_index=' + columnIndex + '&api_key=' + process.env.API_KEY;		
+		//var params = 'start_date=' + startDate + '&end_date=' + endDate + '&column_index=' + columnIndex + '&api_key=' + process.env.API_KEY;		
+		var params = 'column_index=' + columnIndex;		
 		var url = 'https://www.quandl.com/api/v3/datasets/WIKI/';
 		var apiURL = url + stockCode + '.json?' + params;		
 		
