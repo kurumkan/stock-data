@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {sendCodeRemote} from 'actions/Actions';
+import Alert from 'components/Alert'
 
 class Searchbar extends Component{
 	constructor(props) {
@@ -25,6 +26,7 @@ class Searchbar extends Component{
 	render() {		
 		return (
 			<div className='row searchbar'>	
+				<Alert />
 				<form onSubmit={this.handleSubmit.bind(this)}>
 					<input value={this.state.value} onChange={this.handleChange.bind(this)}/>
 					<button>Add Code</button>

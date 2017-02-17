@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 
 var path =require("path");
-var {handleError, requestQuandl} = require("./util_helpers.js");
+var {requestQuandl} = require("./util_helpers.js");
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/stock-data");
 var Stock = require('./models/stock');
@@ -58,11 +58,13 @@ io.on('connect', function(socket){
 					//if ok:
 					//we send that new code to everyone + add it to the db		
 					Stock.create({code: newCode}, function(error, code){
-						if(error)
-							socket.emit('set_error', 'Internal Server Error');				
-						else{
-							io.emit('spread_new_code', newCode);		
-						}
+						if(error){
+							//if duplicate error - skip it
+							if(error.code!='11000')
+								socket.emit('set_error', 'Internal Server Error');																		
+						}	
+						else
+							io.emit('spread_new_code', newCode);								
 					})		
 				}
 			}
@@ -79,26 +81,6 @@ app.use(function(req, res, next){
 });
 
 app.use(express.static(__dirname + '/frontend/public'));
-
-
-//index route
-app.get("/api/stockdata", function(request, response){			
-	requestQuandl('', function(error, res, body){
-		if(error){
-			handleError(response, error, 'YELP');
-		}else{
-			body = JSON.parse(body);						
-			if(body.errors){
-				var error = {
-					stack: body.errors
-				}
-				handleError(response, error, 'QUANDL');
-			}else{
-				response.json({data: body.dataset.data})				
-			}
-		}
-	});
-});
 
 app.get('*', function (request, response){		
 	response.sendFile(path.resolve(__dirname, './frontend/public', 'index.html'))

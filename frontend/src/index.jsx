@@ -37,8 +37,6 @@ socket.on('set_error', error =>
 	store.dispatch(setError(error))
 );
 
-
-
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>
