@@ -47,6 +47,7 @@ export function setNewCodes(codes){
 				});
 			})
 			.catch((error)=>{				
+				console.log(error)
 				dispatch(setError('Something went wrong. We are working on it.'))
 			});
 	}
@@ -55,6 +56,13 @@ export function setNewCodes(codes){
 		payload: codes.map(entry=>entry.code)
 	}
 }
+
+export function sendCodeRemote(code){	
+	return function(dispatch){
+		
+	}
+}
+
 
 
 export function sendCodeRemote(code){	

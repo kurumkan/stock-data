@@ -3,14 +3,10 @@ import { connect } from 'react-redux';
 
 class Chart extends Component{	
 	render() {				
-		var {stocks} = this.props;	
-		console.log('**',stocks);
-		var renderStocks = stocks.map((stock,i)=><li key={i}>{stock.code}</li>)				
+		var {stocks} = this.props;			
 		return (
 			<div className='row chart'>				
-				<ul>
-					{renderStocks}
-				</ul>
+				Chart Placeholder
 			</div>	
 		);	
 	}

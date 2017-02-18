@@ -26,11 +26,20 @@ class Searchbar extends Component{
 	render() {		
 		return (
 			<div className='row searchbar'>	
-				<Alert />
-				<form onSubmit={this.handleSubmit.bind(this)}>
-					<input value={this.state.value} onChange={this.handleChange.bind(this)}/>
-					<button>Add Code</button>
-				</form>
+				<div className='col-md-3 col-sm-2'></div>
+				<div className='col-md-6 col-sm-8'>
+					<Alert />
+					<form onSubmit={this.handleSubmit.bind(this)}>
+						<div className='input-group'> 
+							<input className='form-control' placeholder='Enter Stock Code' value={this.state.value} onChange={this.handleChange.bind(this)}/>
+						
+							<span className="input-group-btn">
+								<button className='btn btn-success-custom'>Add</button>
+							</span>	
+						</div>	
+					</form>
+				</div>	
+				<div className='col-md-3 col-sm-2'></div>
 			</div>	
 		);	
 	}

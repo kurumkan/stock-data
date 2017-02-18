@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AAAA,UAAU,CACT,gBAAgB,CAAE,OAAO,CACzB,UAAU,CAAE,IAAI,CAChB,WAAW,CAAE,IAAI,CACjB,cAAc,CAAE,IAAI,CAErB,uBAAwB,CACvB,MAAM,CAAE,IAAI,CAEb,mBAAmB,CAClB,gBAAgB,CAAE,OAAO,CACzB,KAAK,CAAE,IAAI,CAEZ,yBAAyB,CACxB,gBAAgB,CAAE,OAAO,CACzB,KAAK,CAAE,IAAI,CCZZ,IAAI,CACH,gBAAgB,CAAE,OAAO,CACtB,WAAW,CAAE,oBAAoB",
+"sources": ["components/_searchbar.scss","app.scss"],
 "names": [],
 "file": "app.css"
 }

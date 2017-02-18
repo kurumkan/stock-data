@@ -1,0 +1,21 @@
+.bs-callout {
+    padding: 20px;
+    margin: 10px 0;
+    border: 1px solid #eee;    
+    border-radius: 3px; 
+    border: 1px solid #D0CFC7;    
+}
+.bs-callout h4{
+    color: #9e2f50;
+}
+.bs-callout:hover{
+    background-color: #ffeddc;
+}
+.bs-callout p{
+    color:#737373;
+    font-size: 12px;
+}
+
+.bs-callout-default {
+    border-left: #27757B 5px solid;
+}

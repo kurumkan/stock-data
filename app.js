@@ -49,16 +49,19 @@ io.on('connect', function(socket){
 
 		requestQuandl({stockCode: newCode}, function(error, res, body){
 			if(error){
+				console.log(error)
 				socket.emit('set_error', 'Internal Server Error');
 			}else{
 				body = JSON.parse(body);								
 				if(body.quandl_error){					
+					console.log('uqndle error')
 					socket.emit('set_error', 'Incorrect or not existing stock code');
 				}else{					
 					//if ok:
 					//we send that new code to everyone + add it to the db		
 					Stock.create({code: newCode}, function(error, code){
 						if(error){
+							console.log(error)
 							//if duplicate error - skip it
 							if(error.code!='11000')
 								socket.emit('set_error', 'Internal Server Error');																		
