@@ -18,9 +18,9 @@ class Searchbar extends Component{
 	handleSubmit(e){
 		e.preventDefault();
 		var {value} = this.state;
-		if(value){
-			this.props.sendCodeRemote(value);
+		if(value){			
 			this.setState({value: ''})
+			this.props.sendCodeRemote(value);
 		}		
 	}
 	render() {		

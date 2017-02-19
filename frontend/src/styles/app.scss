@@ -1,7 +1,12 @@
 @import "components/searchbar";
 @import "components/stock_list_item";
+@import "components/footer";
 
 body{
 	background-color: #fff1e0;
     font-family: 'Roboto', sans-serif;
+}
+
+a{
+	color: #27757b;
 }

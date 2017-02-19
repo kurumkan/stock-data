@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Footer from 'components/Footer';
 
 export default class Main extends Component{
 	render() {		
@@ -7,6 +8,7 @@ export default class Main extends Component{
 				<div className='row'>					
 					{this.props.children}						
 				</div>	
+				<Footer />
 			</div>	
 		);	
 	}

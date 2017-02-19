@@ -1,71 +1,28 @@
-import axios from 'axios';
-import {browserHistory} from 'react-router';
-import moment from 'moment';
-
-export function addCodeRemoteOrigin(code){	
-	return function(dispatch){		
-		console.log('addCodeRemoteOrigin')
-		
-		var endDate = moment().format('YYYY-MM-DD');		
-		var startDate = moment().subtract(1, 'year').format('YYYY-MM-DD');		
-		var url = 'https://www.quandl.com/api/v3/datasets/WIKI/'+code+'.json?start_date=' + startDate + '&end_date=' + endDate+'&column_index=4&api_key=Lvs5Ew9zxZa_m6FTLsSw';				
-		return axios.get(url)
-			.then(response=>{				
-				var {data, name} = response.data.dataset;
-				var code = response.data.dataset.dataset_code;				
-				dispatch({
-					type: 'ADD_CODE_REMOTE_ORIGIN',	
-					payload: {data, name, code}
-				})		
-			})
-			.catch(error=>{				
-				dispatch(setError('Something went wrong. We are working on it.'));	
-			});		
-	}		
+export function addCodeRemoteOrigin(stock){			
+	return {
+		type: 'ADD_CODE_REMOTE_ORIGIN',	
+		payload: stock
+	}
 }
 
-export function setNewCodes(codes){					
-	return function(dispatch){
-		var endDate = moment().format('YYYY-MM-DD');		
-		var startDate = moment().subtract(1, 'year').format('YYYY-MM-DD');			
-		var calls = codes.map(codeObj=>{
-			var url = `https://www.quandl.com/api/v3/datasets/WIKI/${codeObj.code}.json?start_date=${startDate}&end_date=${endDate}&column_index=4&api_key=Lvs5Ew9zxZa_m6FTLsSw`;			
-			return axios.get(url);
-		})		
-		return axios.all(calls)
-			.then(function (res) {
-				var result = res.map((r)=>{
-					return {
-						name: r.data.dataset.name,
-						code: r.data.dataset.dataset_code,
-						data: r.data.dataset.data
-					}	
-				});				
-				dispatch({
-					type: 'SET_NEW_CODES',
-					payload: result
-				});
-			})
-			.catch((error)=>{				
-				console.log(error)
-				dispatch(setError('Something went wrong. We are working on it.'))
-			});
-	}
+export function setNewCodes(stocks){	
+	console.log('setnewcodes', stocks)
 	return {
 		type: 'SET_NEW_CODES',
-		payload: codes.map(entry=>entry.code)
+		payload: stocks
+	}
+}
+
+export function removeCode(code){	
+	console.log('removecode')
+	return {
+		type: 'REMOVE_CODE',
+		payload: code
 	}
 }
 
 export function sendCodeRemote(code){	
-	return function(dispatch){
-		
-	}
-}
-
-
-
-export function sendCodeRemote(code){	
+	console.log('sendcoderemote')
 	return function(dispatch){
 		dispatch({
 			type: 'SEND_CODE_REMOTE',

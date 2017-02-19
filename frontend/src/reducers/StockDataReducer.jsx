@@ -7,7 +7,15 @@ export default function(state=[], action){
 		case 'SET_NEW_CODES':
 			return action.payload;
 
-		default:
-			return state;	
+		case 'REMOVE_CODE':
+			var index = state.map(x=>x.code).indexOf(action.payload);
+			if(index>=0){
+				console.log('reducer', index)
+				return [
+					...state.slice(0, index),
+	    			...state.slice(index + 1)
+				]		
+			}	
 	}
+	return state;	
 }

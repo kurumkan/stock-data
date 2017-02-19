@@ -83,39 +83,47 @@
 
 	var _Main2 = _interopRequireDefault(_Main);
 
-	var _IndexPage = __webpack_require__(313);
+	var _IndexPage = __webpack_require__(314);
 
 	var _IndexPage2 = _interopRequireDefault(_IndexPage);
 
-	var _NotFound = __webpack_require__(455);
+	var _NotFound = __webpack_require__(456);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _Actions = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"actions/Actions\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _Actions = __webpack_require__(317);
 
-	var _RemoteActionMiddleware = __webpack_require__(456);
+	var _RemoteActionMiddleware = __webpack_require__(457);
 
 	var _RemoteActionMiddleware2 = _interopRequireDefault(_RemoteActionMiddleware);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// App css
-	__webpack_require__(457);
+	__webpack_require__(458);
 
 	//var socket = io(`${location.protocol}//${location.hostname}:process.env.PORT||8080`);
-	var socket = (0, _socket2.default)();
+	var socket = (0, _socket2.default)('http://localhost:8080');
 
 	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _RemoteActionMiddleware2.default)(socket))(_redux.createStore);
 	var store = createStoreWithMiddleware(_RootReducer2.default);
 
+	//called on connect
 	socket.on('set_new_codes', function (codes) {
 		return store.dispatch((0, _Actions.setNewCodes)(codes));
 	});
 
+	//called when some of the clients added a valid stock code
 	socket.on('spread_new_code', function (code) {
 		return store.dispatch((0, _Actions.addCodeRemoteOrigin)(code));
 	});
 
+	//called when some of the clients added a valid stock code
+	socket.on('remove_code', function (code) {
+		return store.dispatch((0, _Actions.removeCode)(code));
+	});
+
+	//called in error case
 	socket.on('set_error', function (error) {
 		return store.dispatch((0, _Actions.setError)(error));
 	});
@@ -35493,9 +35501,16 @@
 			case 'SET_NEW_CODES':
 				return action.payload;
 
-			default:
-				return state;
+			case 'REMOVE_CODE':
+				var index = state.map(function (x) {
+					return x.code;
+				}).indexOf(action.payload);
+				if (index >= 0) {
+					console.log('reducer', index);
+					return [].concat(_toConsumableArray(state.slice(0, index)), _toConsumableArray(state.slice(index + 1)));
+				}
 		}
+		return state;
 	};
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -35544,6 +35559,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _Footer = __webpack_require__(313);
+
+	var _Footer2 = _interopRequireDefault(_Footer);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35571,7 +35590,8 @@
 						'div',
 						{ className: 'row' },
 						this.props.children
-					)
+					),
+					_react2.default.createElement(_Footer2.default, null)
 				);
 			}
 		}]);
@@ -35597,15 +35617,75 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Chart = __webpack_require__(314);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Footer = function (_Component) {
+		_inherits(Footer, _Component);
+
+		function Footer() {
+			_classCallCheck(this, Footer);
+
+			return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).apply(this, arguments));
+		}
+
+		_createClass(Footer, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'footer navbar navbar-fixed-bottom text-center' },
+					'\u24B8 2017 Built by ',
+					_react2.default.createElement(
+						'a',
+						{ href: 'https://github.com/kurumkan', target: '_blank' },
+						'Kurumkan'
+					),
+					' for ',
+					_react2.default.createElement(
+						'a',
+						{ href: 'http://freecodecamp.com/', target: '_blank' },
+						'FreeCodeCamp'
+					)
+				);
+			}
+		}]);
+
+		return Footer;
+	}(_react.Component);
+
+	exports.default = Footer;
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Chart = __webpack_require__(315);
 
 	var _Chart2 = _interopRequireDefault(_Chart);
 
-	var _Searchbar = __webpack_require__(315);
+	var _Searchbar = __webpack_require__(316);
 
 	var _Searchbar2 = _interopRequireDefault(_Searchbar);
 
-	var _StockList = __webpack_require__(453);
+	var _StockList = __webpack_require__(454);
 
 	var _StockList2 = _interopRequireDefault(_StockList);
 
@@ -35645,7 +35725,7 @@
 	exports.default = IndexPage;
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35706,7 +35786,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(Chart);
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35723,9 +35803,9 @@
 
 	var _reactRedux = __webpack_require__(160);
 
-	var _Actions = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"actions/Actions\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _Actions = __webpack_require__(317);
 
-	var _Alert = __webpack_require__(452);
+	var _Alert = __webpack_require__(453);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
@@ -35765,8 +35845,8 @@
 				var value = this.state.value;
 
 				if (value) {
-					this.props.sendCodeRemote(value);
 					this.setState({ value: '' });
+					this.props.sendCodeRemote(value);
 				}
 			}
 		}, {
@@ -35810,8 +35890,68 @@
 	exports.default = (0, _reactRedux.connect)(null, { sendCodeRemote: _Actions.sendCodeRemote })(Searchbar);
 
 /***/ },
-/* 316 */,
-/* 317 */,
+/* 317 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.addCodeRemoteOrigin = addCodeRemoteOrigin;
+	exports.setNewCodes = setNewCodes;
+	exports.removeCode = removeCode;
+	exports.sendCodeRemote = sendCodeRemote;
+	exports.setError = setError;
+	exports.removeError = removeError;
+	function addCodeRemoteOrigin(stock) {
+		return {
+			type: 'ADD_CODE_REMOTE_ORIGIN',
+			payload: stock
+		};
+	}
+
+	function setNewCodes(stocks) {
+		console.log('setnewcodes', stocks);
+		return {
+			type: 'SET_NEW_CODES',
+			payload: stocks
+		};
+	}
+
+	function removeCode(code) {
+		console.log('removecode');
+		return {
+			type: 'REMOVE_CODE',
+			payload: code
+		};
+	}
+
+	function sendCodeRemote(code) {
+		console.log('sendcoderemote');
+		return function (dispatch) {
+			dispatch({
+				type: 'SEND_CODE_REMOTE',
+				payload: code
+			});
+			dispatch(removeError());
+		};
+	}
+
+	function setError(error) {
+		return {
+			type: 'SET_ERROR',
+			payload: error
+		};
+	}
+
+	function removeError() {
+		return {
+			type: 'REMOVE_ERROR'
+		};
+	}
+
+/***/ },
 /* 318 */,
 /* 319 */,
 /* 320 */,
@@ -35946,7 +36086,8 @@
 /* 449 */,
 /* 450 */,
 /* 451 */,
-/* 452 */
+/* 452 */,
+/* 453 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36014,7 +36155,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(Alert);
 
 /***/ },
-/* 453 */
+/* 454 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36031,7 +36172,7 @@
 
 	var _reactRedux = __webpack_require__(160);
 
-	var _StockListItem = __webpack_require__(454);
+	var _StockListItem = __webpack_require__(455);
 
 	var _StockListItem2 = _interopRequireDefault(_StockListItem);
 
@@ -36084,7 +36225,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(StockList);
 
 /***/ },
-/* 454 */
+/* 455 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36098,6 +36239,10 @@
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _Actions = __webpack_require__(317);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36117,6 +36262,11 @@
 		}
 
 		_createClass(StockListItem, [{
+			key: 'handleClick',
+			value: function handleClick(code) {
+				this.props.removeCode(code);
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var stock = this.props.stock;
@@ -36129,9 +36279,22 @@
 						'div',
 						{ className: 'bs-callout bs-callout-default' },
 						_react2.default.createElement(
-							'h4',
-							null,
-							stock.code
+							'div',
+							{ className: 'row' },
+							_react2.default.createElement(
+								'h4',
+								{ className: 'pull-left' },
+								stock.code
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'pull-right' },
+								_react2.default.createElement(
+									'button',
+									{ onClick: this.handleClick.bind(this, stock.code), type: 'button', className: 'close', 'data-dismiss': 'modal', 'aria-hidden': 'true' },
+									'\xD7'
+								)
+							)
 						),
 						_react2.default.createElement(
 							'p',
@@ -36146,10 +36309,10 @@
 		return StockListItem;
 	}(_react.Component);
 
-	exports.default = StockListItem;
+	exports.default = (0, _reactRedux.connect)(null, { removeCode: _Actions.removeCode })(StockListItem);
 
 /***/ },
-/* 455 */
+/* 456 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36225,7 +36388,7 @@
 	exports.default = NotFound404;
 
 /***/ },
-/* 456 */
+/* 457 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36238,8 +36401,12 @@
 		return function (store) {
 			return function (next) {
 				return function (action) {
-					if (action.type == 'SEND_CODE_REMOTE') {
-						socket.emit('add_code', action.payload);
+
+					switch (action.type) {
+						case 'SEND_CODE_REMOTE':
+							socket.emit('add_code', action.payload);
+						case 'REMOVE_CODE':
+							socket.emit('remove_code', action.payload);
 					}
 
 					return next(action);
@@ -36249,16 +36416,16 @@
 	};
 
 /***/ },
-/* 457 */
+/* 458 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(458);
+	var content = __webpack_require__(459);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(460)(content, {});
+	var update = __webpack_require__(461)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -36275,21 +36442,21 @@
 	}
 
 /***/ },
-/* 458 */
+/* 459 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(459)();
+	exports = module.exports = __webpack_require__(460)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".searchbar {\n  background-color: #ffe9d7;\n  min-height: 90px;\n  padding-top: 25px;\n  padding-bottom: 25px; }\n\n.searchbar input, button {\n  height: 40px;\n  border: 1px solid #a7a59b; }\n\n.btn-success-custom {\n  background-color: #27757b;\n  color: #fff; }\n\n.btn-success-custom:hover {\n  background-color: #40888F;\n  color: #fff; }\n\n.bs-callout {\n  padding: 20px;\n  margin: 10px 0;\n  border: 1px solid #eee;\n  border-radius: 3px;\n  border: 1px solid #D0CFC7; }\n\n.bs-callout h4 {\n  color: #9e2f50; }\n\n.bs-callout:hover {\n  background-color: #ffeddc; }\n\n.bs-callout p {\n  color: #737373;\n  font-size: 12px; }\n\n.bs-callout-default {\n  border-left: #27757B 5px solid; }\n\nbody {\n  background-color: #fff1e0;\n  font-family: 'Roboto', sans-serif; }\n", ""]);
+	exports.push([module.id, ".searchbar {\n  background-color: #ffe9d7;\n  min-height: 90px;\n  padding-top: 25px;\n  padding-bottom: 25px;\n  margin: 0; }\n\n.searchbar input, button {\n  height: 40px;\n  border: 1px solid #a7a59b; }\n\n.btn-success-custom {\n  background-color: #27757b;\n  color: #fff; }\n\n.btn-success-custom:hover {\n  background-color: #40888F;\n  color: #fff; }\n\n.bs-callout {\n  padding: 20px;\n  margin: 10px 0;\n  border: 1px solid #eee;\n  border-radius: 3px;\n  border: 1px solid #D0CFC7; }\n\n.bs-callout h4 {\n  color: #9e2f50; }\n\n.bs-callout:hover {\n  background-color: #ffeddc; }\n\n.bs-callout p {\n  color: #737373;\n  font-size: 12px; }\n\n.bs-callout-default {\n  border-left: #27757B 5px solid; }\n\n.bs-callout .row {\n  padding: 0 12px; }\n\n.footer {\n  background: #ffe9d7;\n  padding: 20px 0; }\n\nbody {\n  background-color: #fff1e0;\n  font-family: 'Roboto', sans-serif; }\n\na {\n  color: #27757b; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 459 */
+/* 460 */
 /***/ function(module, exports) {
 
 	/*
@@ -36345,7 +36512,7 @@
 
 
 /***/ },
-/* 460 */
+/* 461 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

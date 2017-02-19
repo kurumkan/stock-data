@@ -15,24 +15,32 @@ import RootReducer from 'reducers/RootReducer';
 import Main from 'components/Main';
 import IndexPage from 'components/IndexPage';
 import NotFound404 from 'components/NotFound404';
-import {addCodeRemoteOrigin, setNewCodes, setError} from 'actions/Actions';
+import {addCodeRemoteOrigin, setNewCodes, removeCode, setError} from 'actions/Actions';
 
 //var socket = io(`${location.protocol}//${location.hostname}:process.env.PORT||8080`);
-var socket = io();
+var socket = io('http://localhost:8080');
 
 import RemoteActionMiddleware from './middlewares/RemoteActionMiddleware';
 
 var createStoreWithMiddleware = applyMiddleware(ReduxThunk, RemoteActionMiddleware(socket))(createStore);
 var store = createStoreWithMiddleware(RootReducer);
 
+//called on connect
 socket.on('set_new_codes', codes =>
 	store.dispatch(setNewCodes(codes))
 );
 
+//called when some of the clients added a valid stock code
 socket.on('spread_new_code', code =>
 	store.dispatch(addCodeRemoteOrigin(code))
 );
 
+//called when some of the clients added a valid stock code
+socket.on('remove_code', code =>
+	store.dispatch(removeCode(code))
+);
+
+//called in error case
 socket.on('set_error', error =>
 	store.dispatch(setError(error))
 );

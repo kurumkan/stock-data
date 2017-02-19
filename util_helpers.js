@@ -1,21 +1,37 @@
-var request = require('request');  
+var axios = require('axios');
 var moment = require('moment');
 
 module.exports = {		
-	requestQuandl: function(parameters, callback) {
-		var stockCode = parameters.stockCode;		
-		var columnIndex = 4;		
-		var API_KEY = 'Lvs5Ew9zxZa_m6FTLsSw';
+	requestQuandl: function(stockCode, callback) {						
 		var endDate = moment().format('YYYY-MM-DD');		
-		var startDate = moment().subtract(2, 'day').format('YYYY-MM-DD');		
+		var startDate = moment().subtract(1, 'year').format('YYYY-MM-DD');	
 		
-		var params = 'column_index=' + columnIndex + '&api_key=' + API_KEY + '&start_date='+startDate+'&end_date='+endDate;		
-		var url = 'https://www.quandl.com/api/v3/datasets/WIKI/';
-		var apiURL = url + stockCode + '.json?' + params;		
-				
-		request(apiURL, function(error, response, body){
-			return callback(error, response, body);	
-		});		
+		var url = `https://www.quandl.com/api/v3/datasets/WIKI/${stockCode}.json?start_date=${startDate}&end_date=${endDate}&column_index=4&api_key=Lvs5Ew9zxZa_m6FTLsSw`;					
+		axios.get(url)
+			.then(function(result){
+				callback(null, result)
+			})
+			.catch(function(error){
+				callback(error, null)
+			})
+	},
+
+	requestQuandlBulk: function(codes, callback) {
+		var endDate = moment().format('YYYY-MM-DD');		
+		var startDate = moment().subtract(1, 'year').format('YYYY-MM-DD');	
+
+		var calls = codes.map(codeObj=>{
+			var url = `https://www.quandl.com/api/v3/datasets/WIKI/${codeObj.code}.json?start_date=${startDate}&end_date=${endDate}&column_index=4&api_key=Lvs5Ew9zxZa_m6FTLsSw`;			
+			return axios.get(url);
+		});						
+
+		axios.all(calls)
+		.then(function(result){
+			callback(null,result)	
+		})
+		.catch(function(error){
+			callback(error, null)	
+		});
 	}
 }
 
