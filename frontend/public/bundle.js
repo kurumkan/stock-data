@@ -102,25 +102,24 @@
 	// App css
 	__webpack_require__(323);
 
-	//var socket = io(`${location.protocol}//${location.hostname}:process.env.PORT||8080`);
 	var socket = (0, _socket2.default)('http://localhost:8080');
 
 	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _RemoteActionMiddleware2.default)(socket))(_redux.createStore);
 	var store = createStoreWithMiddleware(_RootReducer2.default);
 
 	//called on connect
-	socket.on('set_new_codes', function (codes) {
-		return store.dispatch((0, _Actions.setNewCodes)(codes));
+	socket.on('set_new_stocks', function (stocks) {
+		return store.dispatch((0, _Actions.setNewStocks)(stocks));
 	});
 
 	//called when some of the clients added a valid stock code
-	socket.on('spread_new_code', function (code) {
-		return store.dispatch((0, _Actions.addCodeRemoteOrigin)(code));
+	socket.on('spread_new_stock', function (stock) {
+		return store.dispatch((0, _Actions.addStockRemoteOrigin)(stock));
 	});
 
 	//called when some of the clients added a valid stock code
-	socket.on('remove_code', function (code) {
-		return store.dispatch((0, _Actions.removeCode)(code));
+	socket.on('remove_stock', function (stock) {
+		return store.dispatch((0, _Actions.removeStock)(stock));
 	});
 
 	//called in error case
@@ -35495,13 +35494,13 @@
 
 		switch (action.type) {
 
-			case 'ADD_CODE_REMOTE_ORIGIN':
+			case 'ADD_STOCK_REMOTE_ORIGIN':
 				return [].concat(_toConsumableArray(state), [action.payload]);
 
-			case 'SET_NEW_CODES':
+			case 'SET_NEW_STOCKS':
 				return action.payload;
 
-			case 'REMOVE_CODE':
+			case 'REMOVE_STOCK':
 				var index = state.map(function (x) {
 					return x.code;
 				}).indexOf(action.payload);
@@ -35845,7 +35844,7 @@
 
 				if (value) {
 					this.setState({ value: '' });
-					this.props.sendCodeRemote(value);
+					this.props.sendStockRemote(value);
 				}
 			}
 		}, {
@@ -35886,7 +35885,7 @@
 		return Searchbar;
 	}(_react.Component);
 
-	exports.default = (0, _reactRedux.connect)(null, { sendCodeRemote: _Actions.sendCodeRemote })(Searchbar);
+	exports.default = (0, _reactRedux.connect)(null, { sendStockRemote: _Actions.sendStockRemote })(Searchbar);
 
 /***/ },
 /* 317 */
@@ -35897,37 +35896,37 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.addCodeRemoteOrigin = addCodeRemoteOrigin;
-	exports.setNewCodes = setNewCodes;
-	exports.removeCode = removeCode;
-	exports.sendCodeRemote = sendCodeRemote;
+	exports.addStockRemoteOrigin = addStockRemoteOrigin;
+	exports.setNewStocks = setNewStocks;
+	exports.removeStock = removeStock;
+	exports.sendStockRemote = sendStockRemote;
 	exports.setError = setError;
 	exports.removeError = removeError;
-	function addCodeRemoteOrigin(stock) {
+	function addStockRemoteOrigin(stock) {
 		return {
-			type: 'ADD_CODE_REMOTE_ORIGIN',
+			type: 'ADD_STOCK_REMOTE_ORIGIN',
 			payload: stock
 		};
 	}
 
-	function setNewCodes(stocks) {
+	function setNewStocks(stocks) {
 		return {
-			type: 'SET_NEW_CODES',
+			type: 'SET_NEW_STOCKS',
 			payload: stocks
 		};
 	}
 
-	function removeCode(code) {
+	function removeStock(code) {
 		return {
-			type: 'REMOVE_CODE',
+			type: 'REMOVE_STOCK',
 			payload: code
 		};
 	}
 
-	function sendCodeRemote(code) {
+	function sendStockRemote(code) {
 		return function (dispatch) {
 			dispatch({
-				type: 'SEND_CODE_REMOTE',
+				type: 'SEND_STOCK_REMOTE',
 				payload: code
 			});
 			dispatch(removeError());
@@ -36125,7 +36124,7 @@
 		_createClass(StockListItem, [{
 			key: 'handleClick',
 			value: function handleClick(code) {
-				this.props.removeCode(code);
+				this.props.removeStock(code);
 			}
 		}, {
 			key: 'render',
@@ -36170,7 +36169,7 @@
 		return StockListItem;
 	}(_react.Component);
 
-	exports.default = (0, _reactRedux.connect)(null, { removeCode: _Actions.removeCode })(StockListItem);
+	exports.default = (0, _reactRedux.connect)(null, { removeStock: _Actions.removeStock })(StockListItem);
 
 /***/ },
 /* 321 */
@@ -36264,11 +36263,11 @@
 				return function (action) {
 
 					switch (action.type) {
-						case 'SEND_CODE_REMOTE':
-							socket.emit('add_code', action.payload);
+						case 'SEND_STOCK_REMOTE':
+							socket.emit('add_stock', action.payload);
 							break;
-						case 'REMOVE_CODE':
-							socket.emit('remove_code', action.payload);
+						case 'REMOVE_STOCK':
+							socket.emit('remove_stock', action.payload);
 							break;
 					}
 

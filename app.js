@@ -76,7 +76,7 @@ var clients = [];
 io.on('connect', function(socket){	
 	clients.push(socket);		
 	Stock.find({}, (error, stocks)=>{
-		socket.emit('set_new_codes', stocks);	
+		socket.emit('set_new_stocks', stocks);	
 	});
 
 	// When socket disconnects, remove it from the list:
@@ -88,7 +88,7 @@ io.on('connect', function(socket){
     });
 
 	//we got new code from client
-	socket.on('add_code', function(newCode){
+	socket.on('add_stock', function(newCode){
 		requestQuandl(newCode, function(error, result){
 			if(error){					
 				if(error.response&&error.response.status==404)
@@ -108,7 +108,7 @@ io.on('connect', function(socket){
 						if(error.code!='11000')
 							socket.emit('set_error', 'Internal Server Error');																		
 					}else{																			
-						io.emit('spread_new_code', newStock);	
+						io.emit('spread_new_stock', newStock);	
 					}
 				})				
 			}
@@ -116,10 +116,10 @@ io.on('connect', function(socket){
 	});
 
 	//we got new code from client
-	socket.on('remove_code', function(code){			
+	socket.on('remove_stock', function(code){			
 		clients.map(function(client){												
 			if(client.id!=socket.id)							
-				client.emit('remove_code', code);			
+				client.emit('remove_stock', code);			
 		});			
 		Stock.findOneAndRemove({code: code}, function(error, result){
 			if(error){				

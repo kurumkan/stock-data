@@ -1,11 +1,11 @@
 export default socket => store => next => action => {
 
 	switch(action.type){
-		case 'SEND_CODE_REMOTE':
-			socket.emit('add_code', action.payload);
+		case 'SEND_STOCK_REMOTE':
+			socket.emit('add_stock', action.payload);
 			break;
-		case 'REMOVE_CODE':				
-			socket.emit('remove_code', action.payload);					
+		case 'REMOVE_STOCK':				
+			socket.emit('remove_stock', action.payload);					
 			break;
 	}
 

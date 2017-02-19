@@ -1,28 +1,28 @@
-export function addCodeRemoteOrigin(stock){			
+export function addStockRemoteOrigin(stock){			
 	return {
-		type: 'ADD_CODE_REMOTE_ORIGIN',	
+		type: 'ADD_STOCK_REMOTE_ORIGIN',	
 		payload: stock
 	}
 }
 
-export function setNewCodes(stocks){		
+export function setNewStocks(stocks){		
 	return {
-		type: 'SET_NEW_CODES',
+		type: 'SET_NEW_STOCKS',
 		payload: stocks
 	}
 }
 
-export function removeCode(code){		
+export function removeStock(code){		
 	return {
-		type: 'REMOVE_CODE',
+		type: 'REMOVE_STOCK',
 		payload: code
 	}
 }
 
-export function sendCodeRemote(code){		
+export function sendStockRemote(code){		
 	return function(dispatch){
 		dispatch({
-			type: 'SEND_CODE_REMOTE',
+			type: 'SEND_STOCK_REMOTE',
 			payload: code
 		});
 		dispatch(removeError());

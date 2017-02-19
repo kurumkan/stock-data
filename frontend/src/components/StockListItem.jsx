@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {removeCode} from 'actions/Actions';
+import {removeStock} from 'actions/Actions';
 
 class StockListItem extends Component{	
 	handleClick(code){		
-		this.props.removeCode(code);
+		this.props.removeStock(code);
 	}
 
 	render() {				
@@ -26,4 +26,4 @@ class StockListItem extends Component{
 	}
 }
 
-export default connect(null, {removeCode})(StockListItem);
+export default connect(null, {removeStock})(StockListItem);

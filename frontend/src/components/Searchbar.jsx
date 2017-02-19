@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {sendCodeRemote} from 'actions/Actions';
+import {sendStockRemote} from 'actions/Actions';
 import Alert from 'components/Alert'
 
 class Searchbar extends Component{
@@ -20,10 +20,10 @@ class Searchbar extends Component{
 		var {value} = this.state;
 		if(value){			
 			this.setState({value: ''})
-			this.props.sendCodeRemote(value);
+			this.props.sendStockRemote(value);
 		}		
 	}
-	render() {		
+	render() {				
 		return (
 			<div className='row searchbar'>	
 				<div className='col-md-3 col-sm-2'></div>
@@ -45,4 +45,4 @@ class Searchbar extends Component{
 	}
 }
 
-export default connect(null, {sendCodeRemote})(Searchbar);
+export default connect(null, {sendStockRemote})(Searchbar);
