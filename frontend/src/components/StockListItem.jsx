@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import {removeCode} from 'actions/Actions';
 
 class StockListItem extends Component{	
-	handleClick(code){
+	handleClick(code){		
 		this.props.removeCode(code);
 	}
 
 	render() {				
-		var {stock} = this.props;
-		console.log(stock)					
+		var {stock} = this.props;		
+		console.log(stock)			
 		return (
 			<div className='col-sm-6 col-md-4'>				
 				<div className='bs-callout bs-callout-default'>									

@@ -33,8 +33,7 @@ function updateStocks(){
 		if(error){
 			console.log(error)
 		}else{		
-			var codes = stocks.map(stock=>stock.code)
-			console.log(codes)
+			var codes = stocks.map(stock=>stock.code)			
 			requestQuandlBulk(codes, function(error, result){			
 				if(error){
 					console.log(error)
@@ -101,8 +100,7 @@ io.on('connect', function(socket){
 					name: result.data.dataset.name,
 					code: result.data.dataset.dataset_code,
 					data: result.data.dataset.data
-				}
-				console.log(newStock.data[0])						
+				}				
 				Stock.create(newStock, function(error, stock){
 					if(error){	
 					console.log(error)									
@@ -118,13 +116,11 @@ io.on('connect', function(socket){
 	});
 
 	//we got new code from client
-	socket.on('remove_code', function(code){	
-		console.log('remove_code')
-		clients.map(function(client){						
-			if(client!=socket){				
-				client.emit('remove_code', code);
-			}
-		});	
+	socket.on('remove_code', function(code){			
+		clients.map(function(client){												
+			if(client.id!=socket.id)							
+				client.emit('remove_code', code);			
+		});			
 		Stock.findOneAndRemove({code: code}, function(error, result){
 			if(error){				
 				socket.emit('set_error', 'Internal Server Error');																		

@@ -35506,7 +35506,6 @@
 					return x.code;
 				}).indexOf(action.payload);
 				if (index >= 0) {
-					console.log('reducer', index);
 					return [].concat(_toConsumableArray(state.slice(0, index)), _toConsumableArray(state.slice(index + 1)));
 				}
 		}
@@ -35912,7 +35911,6 @@
 	}
 
 	function setNewCodes(stocks) {
-		console.log('setnewcodes', stocks);
 		return {
 			type: 'SET_NEW_CODES',
 			payload: stocks
@@ -35920,7 +35918,6 @@
 	}
 
 	function removeCode(code) {
-		console.log('removecode');
 		return {
 			type: 'REMOVE_CODE',
 			payload: code
@@ -35928,7 +35925,6 @@
 	}
 
 	function sendCodeRemote(code) {
-		console.log('sendcoderemote');
 		return function (dispatch) {
 			dispatch({
 				type: 'SEND_CODE_REMOTE',
@@ -36270,8 +36266,10 @@
 					switch (action.type) {
 						case 'SEND_CODE_REMOTE':
 							socket.emit('add_code', action.payload);
+							break;
 						case 'REMOVE_CODE':
 							socket.emit('remove_code', action.payload);
+							break;
 					}
 
 					return next(action);

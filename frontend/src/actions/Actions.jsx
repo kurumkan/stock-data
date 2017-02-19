@@ -5,24 +5,21 @@ export function addCodeRemoteOrigin(stock){
 	}
 }
 
-export function setNewCodes(stocks){	
-	console.log('setnewcodes', stocks)
+export function setNewCodes(stocks){		
 	return {
 		type: 'SET_NEW_CODES',
 		payload: stocks
 	}
 }
 
-export function removeCode(code){	
-	console.log('removecode')
+export function removeCode(code){		
 	return {
 		type: 'REMOVE_CODE',
 		payload: code
 	}
 }
 
-export function sendCodeRemote(code){	
-	console.log('sendcoderemote')
+export function sendCodeRemote(code){		
 	return function(dispatch){
 		dispatch({
 			type: 'SEND_CODE_REMOTE',
