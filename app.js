@@ -28,24 +28,35 @@ var server = app.listen(process.env.PORT||8080, function(){
 	console.log("Server started");
 });
 
-var stocks=[];
-
 function updateStocks(){
-	Stock.find({}, function(error, codes){
+	Stock.find({}, function(error, stocks){
 		if(error){
 			console.log(error)
 		}else{		
+			var codes = stocks.map(stock=>stock.code)
+			console.log(codes)
 			requestQuandlBulk(codes, function(error, result){			
 				if(error){
 					console.log(error)
-				}else{				
-					stocks = result.map((r)=>{
+				}else{			
+					var newStocks = result.map((r)=>{
 						return {
 							name: r.data.dataset.name,
 							code: r.data.dataset.dataset_code,
 							data: r.data.dataset.data
 						}	
-					});							
+					});	
+					Stock.remove({}, (error, removeResult)=>{
+						if(error)console.log(error);
+						else{
+							Stock.create(newStocks, (error, createResutl)=>{
+								if(error)console.log(error);
+								else console.log('Stocks have been updated');
+							})						
+						}		
+					});	
+					
+					
 				}
 			});
 		}
@@ -54,6 +65,7 @@ function updateStocks(){
 updateStocks();
 
 var CronJob = require('cron').CronJob;
+//every midnight new york time
 new CronJob('0 0 0 * * *', function() {
 	updateStocks();  	
 }, null, true, 'America/New_York');
@@ -64,7 +76,9 @@ var clients = [];
 
 io.on('connect', function(socket){	
 	clients.push(socket);		
-	socket.emit('set_new_codes', stocks);
+	Stock.find({}, (error, stocks)=>{
+		socket.emit('set_new_codes', stocks);	
+	});
 
 	// When socket disconnects, remove it from the list:
     socket.on('disconnect', function() {
@@ -83,19 +97,19 @@ io.on('connect', function(socket){
 				else
 					socket.emit('set_error', 'Internal Server Error');
 			}else{				
-				Stock.create({code: newCode}, function(error, stock){
-					if(error){					
-					console.log('2',error)	
+				var newStock = {
+					name: result.data.dataset.name,
+					code: result.data.dataset.dataset_code,
+					data: result.data.dataset.data
+				}
+				console.log(newStock.data[0])						
+				Stock.create(newStock, function(error, stock){
+					if(error){	
+					console.log(error)									
 						//if duplicate error - skip it
 						if(error.code!='11000')
 							socket.emit('set_error', 'Internal Server Error');																		
-					}else{							
-						var newStock = {
-							name: result.data.dataset.name,
-							code: result.data.dataset.dataset_code,
-							data: result.data.dataset.data
-						}						
-						stocks.push(newStock)
+					}else{																			
 						io.emit('spread_new_code', newStock);	
 					}
 				})				
@@ -104,24 +118,18 @@ io.on('connect', function(socket){
 	});
 
 	//we got new code from client
-	socket.on('remove_code', function(code){
-		console.log('removecode', code)
-		clients.map(function(client){			
-			console.log('*****out if')
-			if(client!=socket){
-				console.log('*****in if')
+	socket.on('remove_code', function(code){	
+		console.log('remove_code')
+		clients.map(function(client){						
+			if(client!=socket){				
 				client.emit('remove_code', code);
 			}
 		});	
 		Stock.findOneAndRemove({code: code}, function(error, result){
-			if(error){
-				console.log('error',error)
+			if(error){				
 				socket.emit('set_error', 'Internal Server Error');																		
 			}else{				
-				var index = stocks.map(x=>x.code).indexOf(code);
-				console.log('success', index)
-				if(index>-1)
-					stocks.splice(index,1);
+				console.log('stock <'+code+'> has been removed')
 			}
 		});		
 	});

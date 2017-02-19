@@ -87,20 +87,20 @@
 
 	var _IndexPage2 = _interopRequireDefault(_IndexPage);
 
-	var _NotFound = __webpack_require__(456);
+	var _NotFound = __webpack_require__(321);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
 	var _Actions = __webpack_require__(317);
 
-	var _RemoteActionMiddleware = __webpack_require__(457);
+	var _RemoteActionMiddleware = __webpack_require__(322);
 
 	var _RemoteActionMiddleware2 = _interopRequireDefault(_RemoteActionMiddleware);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// App css
-	__webpack_require__(458);
+	__webpack_require__(323);
 
 	//var socket = io(`${location.protocol}//${location.hostname}:process.env.PORT||8080`);
 	var socket = (0, _socket2.default)('http://localhost:8080');
@@ -35685,7 +35685,7 @@
 
 	var _Searchbar2 = _interopRequireDefault(_Searchbar);
 
-	var _StockList = __webpack_require__(454);
+	var _StockList = __webpack_require__(319);
 
 	var _StockList2 = _interopRequireDefault(_StockList);
 
@@ -35805,7 +35805,7 @@
 
 	var _Actions = __webpack_require__(317);
 
-	var _Alert = __webpack_require__(453);
+	var _Alert = __webpack_require__(318);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
@@ -35952,142 +35952,7 @@
 	}
 
 /***/ },
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */,
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
-/* 328 */,
-/* 329 */,
-/* 330 */,
-/* 331 */,
-/* 332 */,
-/* 333 */,
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */,
-/* 340 */,
-/* 341 */,
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */,
-/* 347 */,
-/* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
-/* 354 */,
-/* 355 */,
-/* 356 */,
-/* 357 */,
-/* 358 */,
-/* 359 */,
-/* 360 */,
-/* 361 */,
-/* 362 */,
-/* 363 */,
-/* 364 */,
-/* 365 */,
-/* 366 */,
-/* 367 */,
-/* 368 */,
-/* 369 */,
-/* 370 */,
-/* 371 */,
-/* 372 */,
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */,
-/* 423 */,
-/* 424 */,
-/* 425 */,
-/* 426 */,
-/* 427 */,
-/* 428 */,
-/* 429 */,
-/* 430 */,
-/* 431 */,
-/* 432 */,
-/* 433 */,
-/* 434 */,
-/* 435 */,
-/* 436 */,
-/* 437 */,
-/* 438 */,
-/* 439 */,
-/* 440 */,
-/* 441 */,
-/* 442 */,
-/* 443 */,
-/* 444 */,
-/* 445 */,
-/* 446 */,
-/* 447 */,
-/* 448 */,
-/* 449 */,
-/* 450 */,
-/* 451 */,
-/* 452 */,
-/* 453 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36155,7 +36020,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(Alert);
 
 /***/ },
-/* 454 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36172,7 +36037,7 @@
 
 	var _reactRedux = __webpack_require__(160);
 
-	var _StockListItem = __webpack_require__(455);
+	var _StockListItem = __webpack_require__(320);
 
 	var _StockListItem2 = _interopRequireDefault(_StockListItem);
 
@@ -36225,7 +36090,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(StockList);
 
 /***/ },
-/* 455 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36312,7 +36177,7 @@
 	exports.default = (0, _reactRedux.connect)(null, { removeCode: _Actions.removeCode })(StockListItem);
 
 /***/ },
-/* 456 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36388,7 +36253,7 @@
 	exports.default = NotFound404;
 
 /***/ },
-/* 457 */
+/* 322 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36416,16 +36281,16 @@
 	};
 
 /***/ },
-/* 458 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(459);
+	var content = __webpack_require__(324);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(461)(content, {});
+	var update = __webpack_require__(326)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -36442,10 +36307,10 @@
 	}
 
 /***/ },
-/* 459 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(460)();
+	exports = module.exports = __webpack_require__(325)();
 	// imports
 
 
@@ -36456,7 +36321,7 @@
 
 
 /***/ },
-/* 460 */
+/* 325 */
 /***/ function(module, exports) {
 
 	/*
@@ -36512,7 +36377,7 @@
 
 
 /***/ },
-/* 461 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
