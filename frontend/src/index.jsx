@@ -7,8 +7,9 @@ import ReduxThunk from 'redux-thunk';
 import io from 'socket.io-client';
 
 // App css
-require('style!css!sass!applicationStyles');
 require('style!css!nvd3css');
+require('style!css!sass!applicationStyles');
+
 
 import RootReducer from 'reducers/RootReducer';
 

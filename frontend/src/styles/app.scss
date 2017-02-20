@@ -1,12 +1,20 @@
 @import "components/searchbar";
 @import "components/stock_list_item";
 @import "components/footer";
+@import "components/chart";
+@import "components/alert";
 
 body{
 	background-color: #fff1e0;
     font-family: 'Roboto', sans-serif;
+    padding-bottom: 80px;
 }
 
 a{
 	color: #27757b;
+}
+
+.page-title{
+	color: #555;	
+	font-family: 'Times New Roman', 'TimesNewRoman';	
 }

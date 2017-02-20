@@ -7,9 +7,8 @@ class StockListItem extends Component{
 		this.props.removeStock(code);
 	}
 
-	render() {				
-		var {stock} = this.props;		
-		console.log(stock)			
+	render() {	
+		var {stock} = this.props;					
 		return (
 			<div className='col-sm-6 col-md-4'>				
 				<div className='bs-callout bs-callout-default'>									

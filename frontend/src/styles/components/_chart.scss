@@ -1,0 +1,17 @@
+.chart{	
+	height: 60%;	
+	margin-bottom: 30px;
+}
+
+.chart svg{
+	width: 100%;
+	height: 100%;
+	display: block;
+	text{
+		fill: #737373;
+		font-size: 10px;
+	}
+	.domain{
+		stroke: #737373;
+	}
+}
