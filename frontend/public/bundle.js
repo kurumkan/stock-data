@@ -35629,7 +35629,7 @@
 					{ className: 'container-fluid main' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'row' },
+						{ className: 'row content-wrapper' },
 						this.props.children
 					),
 					_react2.default.createElement(_Footer2.default, null)
@@ -35680,7 +35680,7 @@
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
-					{ className: 'footer navbar navbar-fixed-bottom text-center' },
+					{ className: 'footer navbar navbar-static-bottom text-center' },
 					'\u24B8 2017 Built by ',
 					_react2.default.createElement(
 						'a',
@@ -35822,16 +35822,15 @@
 				nv.addGraph(function () {
 					var chart = nv.models.lineWithFocusChart();
 
-					//chart.xAxis.tickFormat(d => d3.time.format('%b %d, %Y')(new Date(d))).showMaxMin(false);
 					var array = chartData[0].values;
 					var start = array[0].x;
 					var end = array[array.length - 1].x;
 
-					chart.xAxis.tickValues(d3.time.month.range(start, end, 1)).tickFormat(function (d) {
+					chart.xAxis.tickValues(d3.time.month.range(start, end, 3)).tickFormat(function (d) {
 						return d3.time.format('%b %d, %Y')(new Date(d));
 					}).showMaxMin(false);
 
-					chart.x2Axis.tickValues(d3.time.month.range(start, end, 1)).tickFormat(function (d) {
+					chart.x2Axis.tickValues(d3.time.month.range(start, end, 3)).tickFormat(function (d) {
 						return d3.time.format('%b %d, %Y')(new Date(d));
 					}).showMaxMin(false);
 
@@ -36765,7 +36764,7 @@
 
 
 	// module
-	exports.push([module.id, ".searchbar {\n  background-color: #ffe9d7;\n  min-height: 90px;\n  padding-top: 25px;\n  padding-bottom: 25px;\n  margin: 0;\n  margin-bottom: 20px;\n  border-bottom: 2px solid #d6cdbe;\n  border-top: 2px solid #d6cdbe; }\n\n.searchbar input, button {\n  height: 40px;\n  border: 1px solid #a7a59b; }\n\n.btn-success-custom {\n  background-color: #27757b;\n  color: #fff; }\n\n.btn-success-custom:hover {\n  background-color: #40888F;\n  color: #fff; }\n\n.bs-callout {\n  padding: 20px;\n  margin: 10px 0;\n  border: 1px solid #eee;\n  border-radius: 3px;\n  border: 1px solid #D0CFC7; }\n\n.bs-callout h4 {\n  color: #9e2f50; }\n\n.bs-callout:hover {\n  background-color: #ffeddc; }\n\n.bs-callout p {\n  color: #737373;\n  font-size: 12px; }\n\n.bs-callout-default {\n  border-left: #27757B 5px solid; }\n\n.bs-callout .row {\n  padding: 0 12px; }\n\n.footer {\n  background: #ffe9d7;\n  padding: 20px 0; }\n\n.chart {\n  height: 60%;\n  margin-bottom: 30px; }\n\n.chart svg {\n  width: 100%;\n  height: 100%;\n  display: block; }\n  .chart svg text {\n    fill: #737373;\n    font-size: 10px; }\n  .chart svg .domain {\n    stroke: #737373; }\n\n.alert-custom {\n  background: #fadbcb;\n  border-radius: 0; }\n\n.alert-custom .close {\n  top: -15px; }\n\nbody {\n  background-color: #fff1e0;\n  font-family: 'Roboto', sans-serif;\n  padding-bottom: 80px; }\n\na {\n  color: #27757b; }\n\n.page-title {\n  color: #555;\n  font-family: 'Times New Roman', 'TimesNewRoman'; }\n", ""]);
+	exports.push([module.id, "@media only screen and (max-width: 370px) {\n  .content-wrapper {\n    height: 200vh; } }\n\n@media only screen and (min-width: 371px) {\n  .content-wrapper {\n    height: 100vh; } }\n\n.searchbar {\n  background-color: #ffe9d7;\n  min-height: 90px;\n  padding-top: 25px;\n  padding-bottom: 25px;\n  margin: 0;\n  margin-bottom: 20px;\n  border-bottom: 2px solid #d6cdbe;\n  border-top: 2px solid #d6cdbe; }\n\n.searchbar input, button {\n  height: 40px;\n  border: 1px solid #a7a59b; }\n\n.btn-success-custom {\n  background-color: #27757b;\n  color: #fff; }\n\n.btn-success-custom:hover {\n  background-color: #40888F;\n  color: #fff; }\n\n.bs-callout {\n  padding: 20px;\n  margin: 10px 0;\n  border: 1px solid #eee;\n  border-radius: 3px;\n  border: 1px solid #D0CFC7; }\n\n.bs-callout h4 {\n  color: #9e2f50; }\n\n.bs-callout:hover {\n  background-color: #ffeddc; }\n\n.bs-callout p {\n  color: #737373;\n  font-size: 12px; }\n\n.bs-callout-default {\n  border-left: #27757B 5px solid; }\n\n.bs-callout .row {\n  padding: 0 12px; }\n\n.footer {\n  background: #ffe9d7;\n  padding: 20px 0;\n  margin-top: 50px;\n  margin-bottom: 0;\n  height: 70px; }\n\n.chart {\n  margin-bottom: 30px;\n  height: 50vh; }\n\n.chart svg {\n  display: block; }\n  .chart svg text {\n    fill: #737373;\n    font-size: 10px; }\n  .chart svg .domain {\n    stroke: #737373; }\n\n.alert-custom {\n  background: #fadbcb;\n  border-radius: 0; }\n\n.alert-custom .close {\n  top: -15px; }\n\nbody {\n  background-color: #fff1e0;\n  font-family: 'Roboto', sans-serif; }\n\na {\n  color: #27757b; }\n\n.page-title {\n  color: #555;\n  font-family: 'Times New Roman', 'TimesNewRoman'; }\n", ""]);
 
 	// exports
 

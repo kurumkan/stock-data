@@ -22,17 +22,16 @@ class Chart extends Component{
 		nv.addGraph(function() { 			
 	        var chart = nv.models.lineWithFocusChart();	                
 
-	        //chart.xAxis.tickFormat(d => d3.time.format('%b %d, %Y')(new Date(d))).showMaxMin(false);
 	        var array = chartData[0].values;
 	        var start = array[0].x;
 	        var end = array[array.length-1].x;
-
+			
 	        chart.xAxis
-	        	.tickValues(d3.time.month.range(start, end,1))
+	        	.tickValues(d3.time.month.range(start, end, 3))
 	        	.tickFormat(d => d3.time.format('%b %d, %Y')(new Date(d))).showMaxMin(false);
 
 	        chart.x2Axis
-	        	.tickValues(d3.time.month.range(start, end,1))
+	        	.tickValues(d3.time.month.range(start, end, 3))
 	        	.tickFormat(d => d3.time.format('%b %d, %Y')(new Date(d))).showMaxMin(false);
 
 	        chart.yTickFormat(d3.format(',.2f'));
