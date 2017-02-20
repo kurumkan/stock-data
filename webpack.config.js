@@ -6,6 +6,8 @@
 
 module.exports = {
   entry: [
+    'script!d3/d3.min.js',
+    'script!nvd3/build/nv.d3.min.js',
     './frontend/src/index.jsx'
   ],
 
@@ -68,7 +70,8 @@ module.exports = {
       './frontend/src/'      
     ],
     alias: {
-      applicationStyles: 'frontend/src/styles/app.scss',      
+      applicationStyles: 'frontend/src/styles/app.scss',     
+      nvd3css: 'node_modules/nvd3/build/nv.d3.min.css'
     },
     extensions: ['', '.js', '.jsx']
   },

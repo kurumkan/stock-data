@@ -8,6 +8,7 @@ import io from 'socket.io-client';
 
 // App css
 require('style!css!sass!applicationStyles');
+require('style!css!nvd3css');
 
 import RootReducer from 'reducers/RootReducer';
 
