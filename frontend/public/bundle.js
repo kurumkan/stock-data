@@ -35807,13 +35807,17 @@
 
 				var chartData = [];
 				stocks.map(function (stock) {
+					//stock.data is array of 2 elements 
+					//['2015-01-30', '21222'] 
 					var values = stock.data.map(function (d) {
 						return {
+							//parse date to unix timestamp
 							x: +d3.time.format("%Y-%m-%d").parse(d[0]),
 							y: +d[1]
 						};
 					});
 					if (values.length) chartData.push({
+						'color': stock.color,
 						'key': stock.code,
 						'values': values.reverse()
 					});
@@ -35822,23 +35826,30 @@
 				nv.addGraph(function () {
 					var chart = nv.models.lineWithFocusChart();
 
+					//define range of ticks
 					var array = chartData[0].values;
 					var start = array[0].x;
 					var end = array[array.length - 1].x;
 
-					chart.xAxis.tickValues(d3.time.month.range(start, end, 3)).tickFormat(function (d) {
-						return d3.time.format('%b %d, %Y')(new Date(d));
-					}).showMaxMin(false);
+					chart.xAxis.tickValues(d3.time.month.range(start, end, 2)).tickFormat(function (d) {
+						return d3.time.format("%b'%d")(new Date(d));
+					})
+					//don't show start&end ticks
+					.showMaxMin(false);
 
-					chart.x2Axis.tickValues(d3.time.month.range(start, end, 3)).tickFormat(function (d) {
-						return d3.time.format('%b %d, %Y')(new Date(d));
+					//ticks for 2nd display
+					chart.x2Axis.tickValues(d3.time.month.range(start, end, 2)).tickFormat(function (d) {
+						return d3.time.format("%b'%d")(new Date(d));
 					}).showMaxMin(false);
 
 					chart.yTickFormat(d3.format(',.2f'));
+					//show tooltip on hover
 					chart.useInteractiveGuideline(true);
 					d3.svg.axis().outerTickSize(0);
 
 					d3.select('.chart svg').datum(chartData).call(chart);
+
+					//update chart on resize    
 					nv.utils.windowResize(chart.update);
 
 					return chart;
@@ -36001,6 +36012,7 @@
 	exports.setError = setError;
 	exports.removeError = removeError;
 	function addStockRemoteOrigin(stock) {
+		stock.color = generateColor(3);
 		return {
 			type: 'ADD_STOCK_REMOTE_ORIGIN',
 			payload: stock
@@ -36008,9 +36020,14 @@
 	}
 
 	function setNewStocks(stocks) {
+		var newStocks = stocks.map(function (stock) {
+			stock.color = generateColor(3);
+			return stock;
+		});
+
 		return {
 			type: 'SET_NEW_STOCKS',
-			payload: stocks
+			payload: newStocks
 		};
 	}
 
@@ -36042,6 +36059,16 @@
 		return {
 			type: 'REMOVE_ERROR'
 		};
+	}
+
+	function generateColor(brightness) {
+		// Six levels of brightness from 0 to 5, 0 being the darkest
+		var rgb = [Math.random() * 256, Math.random() * 256, Math.random() * 256];
+		var mix = [brightness * 51, brightness * 51, brightness * 51]; //51 => 255/5
+		var mixedrgb = [rgb[0] + mix[0], rgb[1] + mix[1], rgb[2] + mix[2]].map(function (x) {
+			return Math.round(x / 2.0);
+		});
+		return "rgb(" + mixedrgb.join(",") + ")";
 	}
 
 /***/ },
@@ -36236,12 +36263,13 @@
 			value: function render() {
 				var stock = this.props.stock;
 
+				var style = { borderLeft: stock.color + ' 5px solid' };
 				return _react2.default.createElement(
 					'div',
 					{ className: 'col-sm-6 col-md-4' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'bs-callout bs-callout-default' },
+						{ className: 'bs-callout', style: style },
 						_react2.default.createElement(
 							'div',
 							{ className: 'row' },
@@ -36374,7 +36402,6 @@
 							socket.emit('remove_stock', action.payload);
 							break;
 					}
-
 					return next(action);
 				};
 			};
@@ -36764,7 +36791,7 @@
 
 
 	// module
-	exports.push([module.id, "@media only screen and (max-width: 370px) {\n  .content-wrapper {\n    height: 200vh; } }\n\n@media only screen and (min-width: 371px) {\n  .content-wrapper {\n    height: 100vh; } }\n\n.searchbar {\n  background-color: #ffe9d7;\n  min-height: 90px;\n  padding-top: 25px;\n  padding-bottom: 25px;\n  margin: 0;\n  margin-bottom: 20px;\n  border-bottom: 2px solid #d6cdbe;\n  border-top: 2px solid #d6cdbe; }\n\n.searchbar input, button {\n  height: 40px;\n  border: 1px solid #a7a59b; }\n\n.btn-success-custom {\n  background-color: #27757b;\n  color: #fff; }\n\n.btn-success-custom:hover {\n  background-color: #40888F;\n  color: #fff; }\n\n.bs-callout {\n  padding: 20px;\n  margin: 10px 0;\n  border: 1px solid #eee;\n  border-radius: 3px;\n  border: 1px solid #D0CFC7; }\n\n.bs-callout h4 {\n  color: #9e2f50; }\n\n.bs-callout:hover {\n  background-color: #ffeddc; }\n\n.bs-callout p {\n  color: #737373;\n  font-size: 12px; }\n\n.bs-callout-default {\n  border-left: #27757B 5px solid; }\n\n.bs-callout .row {\n  padding: 0 12px; }\n\n.footer {\n  background: #ffe9d7;\n  padding: 20px 0;\n  margin-top: 50px;\n  margin-bottom: 0;\n  height: 70px; }\n\n.chart {\n  margin-bottom: 30px;\n  height: 50vh; }\n\n.chart svg {\n  display: block; }\n  .chart svg text {\n    fill: #737373;\n    font-size: 10px; }\n  .chart svg .domain {\n    stroke: #737373; }\n\n.alert-custom {\n  background: #fadbcb;\n  border-radius: 0; }\n\n.alert-custom .close {\n  top: -15px; }\n\nbody {\n  background-color: #fff1e0;\n  font-family: 'Roboto', sans-serif; }\n\na {\n  color: #27757b; }\n\n.page-title {\n  color: #555;\n  font-family: 'Times New Roman', 'TimesNewRoman'; }\n", ""]);
+	exports.push([module.id, ".searchbar {\n  background-color: #ffe9d7;\n  min-height: 90px;\n  padding-top: 25px;\n  padding-bottom: 25px;\n  margin: 0;\n  margin-bottom: 20px;\n  border-bottom: 2px solid #d6cdbe;\n  border-top: 2px solid #d6cdbe; }\n\n.searchbar input, button {\n  height: 40px;\n  border: 1px solid #a7a59b; }\n\n.btn-success-custom {\n  background-color: #27757b;\n  color: #fff; }\n\n.btn-success-custom:hover {\n  background-color: #40888F;\n  color: #fff; }\n\n.bs-callout {\n  padding: 20px;\n  margin: 10px 0;\n  border: 1px solid #eee;\n  border-radius: 3px;\n  border: 1px solid #D0CFC7;\n  height: 120px; }\n\n.bs-callout h4 {\n  color: #9e2f50; }\n\n.bs-callout:hover {\n  background-color: #ffeddc; }\n\n.bs-callout p {\n  color: #737373;\n  font-size: 12px; }\n\n.bs-callout .row {\n  padding: 0 12px; }\n\n.footer {\n  background: #ffe9d7;\n  padding: 20px 0;\n  margin-top: 50px;\n  margin-bottom: 0;\n  min-height: 70px; }\n\n.chart {\n  margin-bottom: 30px;\n  height: 50vh; }\n\n.chart svg {\n  display: block; }\n  .chart svg text {\n    fill: #737373;\n    font-size: 10px; }\n  .chart svg .domain {\n    stroke: #737373; }\n\n.alert-custom {\n  background: #fadbcb;\n  border-radius: 0; }\n\n.alert-custom .close {\n  top: -15px; }\n\nbody {\n  background-color: #fff1e0;\n  font-family: 'Roboto', sans-serif; }\n\na {\n  color: #27757b; }\n\n.page-title {\n  color: #555;\n  font-family: 'Times New Roman', 'TimesNewRoman';\n  font-size: 38px; }\n\n.btn-custom-danger {\n  background-color: #27757b;\n  color: #fff; }\n\n.glyphicon {\n  margin-right: 5px; }\n", ""]);
 
 	// exports
 

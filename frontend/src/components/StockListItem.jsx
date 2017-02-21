@@ -9,9 +9,10 @@ class StockListItem extends Component{
 
 	render() {	
 		var {stock} = this.props;					
+		var style = {borderLeft: stock.color+' 5px solid'}; 
 		return (
 			<div className='col-sm-6 col-md-4'>				
-				<div className='bs-callout bs-callout-default'>									
+				<div className='bs-callout' style={style}>									
 					<div className='row'>
 						<h4 className='pull-left'>{stock.code}</h4>
 						<div className='pull-right'>

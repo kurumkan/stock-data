@@ -6,41 +6,52 @@ class Chart extends Component{
 		var {stocks} = nextProps;				
 		var chartData=[];
 		stocks.map((stock)=>{
+			//stock.data is array of 2 elements 
+			//['2015-01-30', '21222'] 
 			var values=stock.data.map(d=>{
 				return{
-					x: +d3.time.format("%Y-%m-%d").parse(d[0]),
+					//parse date to unix timestamp
+					x: +d3.time.format("%Y-%m-%d").parse(d[0]),					
 					y: +d[1]	
 				}
 			});
 			if(values.length)			
-				chartData.push({				
+				chartData.push({	
+					'color': stock.color,					
 					'key': stock.code,
 					'values': values.reverse()
 				});
 		});		
 
 		nv.addGraph(function() { 			
-	        var chart = nv.models.lineWithFocusChart();	                
+	        var chart = nv.models.lineWithFocusChart();	  
 
+			//define range of ticks
 	        var array = chartData[0].values;
 	        var start = array[0].x;
 	        var end = array[array.length-1].x;
 			
 	        chart.xAxis
-	        	.tickValues(d3.time.month.range(start, end, 3))
-	        	.tickFormat(d => d3.time.format('%b %d, %Y')(new Date(d))).showMaxMin(false);
+	        	.tickValues(d3.time.month.range(start, end, 2))
+	        	.tickFormat(d => d3.time.format("%b'%d")(new Date(d)))
+	        	//don't show start&end ticks
+	        	.showMaxMin(false);
 
+			//ticks for 2nd display
 	        chart.x2Axis
-	        	.tickValues(d3.time.month.range(start, end, 3))
-	        	.tickFormat(d => d3.time.format('%b %d, %Y')(new Date(d))).showMaxMin(false);
+	        	.tickValues(d3.time.month.range(start, end, 2))
+	        	.tickFormat(d => d3.time.format("%b'%d")(new Date(d))).showMaxMin(false);
 
 	        chart.yTickFormat(d3.format(',.2f'));
+	        //show tooltip on hover
 	        chart.useInteractiveGuideline(true);
 			d3.svg.axis().outerTickSize(0)
 
 	        d3.select('.chart svg')
 	            .datum(chartData)
 	            .call(chart);
+
+	        //update chart on resize    
 	        nv.utils.windowResize(chart.update);
 
 	        return chart;

@@ -8,6 +8,5 @@ export default socket => store => next => action => {
 			socket.emit('remove_stock', action.payload);					
 			break;
 	}
-
 	return next(action);
 }
