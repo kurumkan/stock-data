@@ -6,10 +6,9 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import ReduxThunk from 'redux-thunk';
 import io from 'socket.io-client';
 
-// App css
+//adding styles
 require('style!css!nvd3css');
 require('style!css!sass!applicationStyles');
-
 
 import RootReducer from 'reducers/RootReducer';
 
@@ -18,8 +17,9 @@ import IndexPage from 'components/IndexPage';
 import NotFound404 from 'components/NotFound404';
 import {addStockRemoteOrigin, setNewStocks, removeStock, setError} from 'actions/Actions';
 
+//connect to backend
 var socket = io('http://localhost:8080');
-
+//custom middleware - ineraction with backend via socket.io
 import RemoteActionMiddleware from './middlewares/RemoteActionMiddleware';
 
 var createStoreWithMiddleware = applyMiddleware(ReduxThunk, RemoteActionMiddleware(socket))(createStore);
@@ -31,12 +31,12 @@ socket.on('set_new_stocks', stocks =>
 	store.dispatch(setNewStocks(stocks))
 );
 
-//called when some of the clients added a valid stock code
+//called when some of the clients adds a valid stock code
 socket.on('spread_new_stock', stock =>
 	store.dispatch(addStockRemoteOrigin(stock))
 );
 
-//called when some of the clients added a valid stock code
+//called when some of the clients removes stock code
 socket.on('remove_stock', stock =>
 	store.dispatch(removeStock(stock))
 );

@@ -49,7 +49,7 @@ export function removeError(){
 	}
 }
 
-
+//generate random color with contolled brightness
 function generateColor(brightness){
 	// Six levels of brightness from 0 to 5, 0 being the darkest
 	var rgb = [Math.random() * 256, Math.random() * 256, Math.random() * 256];

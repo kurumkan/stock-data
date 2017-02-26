@@ -141,11 +141,14 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// App css
+	//adding styles
 	__webpack_require__(328);
 	__webpack_require__(332);
 
+	//connect to backend
 	var socket = (0, _socket2.default)('http://localhost:8080');
+	//custom middleware - ineraction with backend via socket.io
+
 
 	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _RemoteActionMiddleware2.default)(socket))(_redux.createStore);
 	var store = createStoreWithMiddleware(_RootReducer2.default);
@@ -155,12 +158,12 @@
 		return store.dispatch((0, _Actions.setNewStocks)(stocks));
 	});
 
-	//called when some of the clients added a valid stock code
+	//called when some of the clients adds a valid stock code
 	socket.on('spread_new_stock', function (stock) {
 		return store.dispatch((0, _Actions.addStockRemoteOrigin)(stock));
 	});
 
-	//called when some of the clients added a valid stock code
+	//called when some of the clients removes stock code
 	socket.on('remove_stock', function (stock) {
 		return store.dispatch((0, _Actions.removeStock)(stock));
 	});
@@ -36061,6 +36064,7 @@
 		};
 	}
 
+	//generate random color with contolled brightness
 	function generateColor(brightness) {
 		// Six levels of brightness from 0 to 5, 0 being the darkest
 		var rgb = [Math.random() * 256, Math.random() * 256, Math.random() * 256];
@@ -36398,6 +36402,7 @@
 						case 'SEND_STOCK_REMOTE':
 							socket.emit('add_stock', action.payload);
 							break;
+
 						case 'REMOVE_STOCK':
 							socket.emit('remove_stock', action.payload);
 							break;
@@ -36791,7 +36796,7 @@
 
 
 	// module
-	exports.push([module.id, ".searchbar {\n  background-color: #ffe9d7;\n  min-height: 90px;\n  padding-top: 25px;\n  padding-bottom: 25px;\n  margin: 0;\n  margin-bottom: 20px;\n  border-bottom: 2px solid #d6cdbe;\n  border-top: 2px solid #d6cdbe; }\n\n.searchbar input, button {\n  height: 40px;\n  border: 1px solid #a7a59b; }\n\n.btn-success-custom {\n  background-color: #27757b;\n  color: #fff; }\n\n.btn-success-custom:hover {\n  background-color: #40888F;\n  color: #fff; }\n\n.bs-callout {\n  padding: 20px;\n  margin: 10px 0;\n  border: 1px solid #eee;\n  border-radius: 3px;\n  border: 1px solid #D0CFC7;\n  height: 120px; }\n\n.bs-callout h4 {\n  color: #9e2f50; }\n\n.bs-callout:hover {\n  background-color: #ffeddc; }\n\n.bs-callout p {\n  color: #737373;\n  font-size: 12px; }\n\n.bs-callout .row {\n  padding: 0 12px; }\n\n.footer {\n  background: #ffe9d7;\n  padding: 20px 0;\n  margin-top: 50px;\n  margin-bottom: 0;\n  min-height: 70px; }\n\n.chart {\n  margin-bottom: 30px;\n  height: 50vh; }\n\n.chart svg {\n  display: block; }\n  .chart svg text {\n    fill: #737373;\n    font-size: 10px; }\n  .chart svg .domain {\n    stroke: #737373; }\n\n.alert-custom {\n  background: #fadbcb;\n  border-radius: 0; }\n\n.alert-custom .close {\n  top: -15px; }\n\nbody {\n  background-color: #fff1e0;\n  font-family: 'Roboto', sans-serif; }\n\na {\n  color: #27757b; }\n\n.page-title {\n  color: #555;\n  font-family: 'Times New Roman', 'TimesNewRoman';\n  font-size: 38px; }\n\n.btn-custom-danger {\n  background-color: #27757b;\n  color: #fff; }\n\n.glyphicon {\n  margin-right: 5px; }\n", ""]);
+	exports.push([module.id, ".searchbar {\n  background-color: #ffe9d7;\n  min-height: 90px;\n  padding-top: 25px;\n  padding-bottom: 25px;\n  margin: 0;\n  margin-bottom: 20px;\n  border-bottom: 2px solid #d6cdbe;\n  border-top: 2px solid #d6cdbe; }\n\n.searchbar input, button {\n  height: 40px;\n  border: 1px solid #a7a59b; }\n\n.btn-success-custom {\n  background-color: #27757b;\n  color: #fff; }\n\n.btn-success-custom:hover {\n  background-color: #40888F;\n  color: #fff; }\n\n.bs-callout {\n  padding: 20px;\n  margin: 10px 0;\n  border: 1px solid #eee;\n  border-radius: 3px;\n  border: 1px solid #D0CFC7;\n  height: 120px; }\n\n.bs-callout h4 {\n  color: #9e2f50; }\n\n.bs-callout:hover {\n  background-color: #ffeddc; }\n\n.bs-callout p {\n  color: #737373;\n  font-size: 12px; }\n\n.bs-callout .row {\n  padding: 0 12px; }\n\n.footer {\n  background: #ffe9d7;\n  padding: 20px 0;\n  margin: 50px -15px 0px -15px;\n  min-height: 70px;\n  height: 100%; }\n\n.chart {\n  margin-bottom: 30px;\n  height: 50vh; }\n\n.chart svg {\n  display: block; }\n  .chart svg text {\n    fill: #737373;\n    font-size: 10px; }\n  .chart svg .domain {\n    stroke: #737373; }\n\n.alert-custom {\n  background: #fadbcb;\n  border-radius: 0; }\n\n.alert-custom .close {\n  top: -15px; }\n\nbody {\n  background-color: #fff1e0;\n  font-family: 'Roboto', sans-serif; }\n\na {\n  color: #27757b; }\n\n.page-title {\n  color: #555;\n  font-family: 'Times New Roman', 'TimesNewRoman';\n  font-size: 38px; }\n\n.btn-custom-danger {\n  background-color: #27757b;\n  color: #fff; }\n\n.glyphicon {\n  margin-right: 5px; }\n", ""]);
 
 	// exports
 
