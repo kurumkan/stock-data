@@ -5,7 +5,8 @@ var cors = require('cors');
 var path =require("path");
 var {requestQuandl, requestQuandlBulk} = require("./util_helpers.js");
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/stock-data");
+
+mongoose.connect(process.env.MONGOLAB_URI);
 var Stock = require('./models/stock');
 
 app.use(function(req, res, next){
@@ -91,10 +92,12 @@ io.on('connect', function(socket){
 	socket.on('add_stock', function(newCode){
 		requestQuandl(newCode, function(error, result){
 			if(error){					
+				console.log(error);
 				if(error.response&&error.response.status==404)
 					socket.emit('set_error', 'Incorrect or not existing stock code');
-				else
+				else{					
 					socket.emit('set_error', 'Internal Server Error');
+				}
 			}else{				
 				var newStock = {
 					name: result.data.dataset.name,
@@ -102,8 +105,8 @@ io.on('connect', function(socket){
 					data: result.data.dataset.data
 				}				
 				Stock.create(newStock, function(error, stock){
-					if(error){	
-					console.log(error)									
+					if(error){
+						console.log(error)						
 						//if duplicate error - skip it
 						if(error.code!='11000')
 							socket.emit('set_error', 'Internal Server Error');																		
@@ -123,6 +126,7 @@ io.on('connect', function(socket){
 		});			
 		Stock.findOneAndRemove({code: code}, function(error, result){
 			if(error){				
+				console.log(error);
 				socket.emit('set_error', 'Internal Server Error');																		
 			}else{				
 				console.log('stock <'+code+'> has been removed')
