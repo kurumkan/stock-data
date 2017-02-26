@@ -18,7 +18,7 @@ import NotFound404 from 'components/NotFound404';
 import {addStockRemoteOrigin, setNewStocks, removeStock, setError} from 'actions/Actions';
 
 //connect to backend
-var socket = io('http://localhost:8080');
+var socket = io(`http://localhost:${process.env.PORT||8080}`);
 //custom middleware - ineraction with backend via socket.io
 import RemoteActionMiddleware from './middlewares/RemoteActionMiddleware';
 
