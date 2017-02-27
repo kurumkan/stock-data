@@ -11,9 +11,9 @@ describe('Searchbar', ()=>{
   });
 
   it('has a correct class', ()=>{
-      expect(component).to.have.class('searchbar');
-      expect(component.find('input')).to.exist;
-      expect(component.find('button')).to.exist;
+    expect(component).to.have.class('searchbar');
+    expect(component.find('input')).to.exist;
+    expect(component.find('button')).to.exist;
   });
 
   describe('enter some text',()=>{    
