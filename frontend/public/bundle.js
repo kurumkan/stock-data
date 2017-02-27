@@ -93,7 +93,7 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	'use strict';
 
 	var _react = __webpack_require__(8);
 
@@ -146,7 +146,7 @@
 	__webpack_require__(332);
 
 	//connect to backend
-	var url = window.location.protocol + "//" + window.location.hostname + ":" + (process.env.PORT || 8080);
+	var url = window.location.host;
 	console.log(url);
 	var socket = (0, _socket2.default)(url);
 	//custom middleware - ineraction with backend via socket.io
@@ -190,7 +190,6 @@
 			)
 		)
 	), document.querySelector('#app'));
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ },
 /* 7 */
