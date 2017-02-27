@@ -15,7 +15,7 @@ import RootReducer from 'reducers/RootReducer';
 import Main from 'components/Main';
 import IndexPage from 'components/IndexPage';
 import NotFound404 from 'components/NotFound404';
-import {addStockRemoteOrigin, setNewStocks, removeStock, setError} from 'actions/Actions';
+import {addStockRemote, setNewStocks, removeStockRemote, setError} from 'actions/Actions';
 
 //connect to backend
 var socket = io(`http://localhost:${process.env.PORT||8080}`);
@@ -37,8 +37,8 @@ socket.on('spread_new_stock', stock =>
 );
 
 //called when some of the clients removes stock code
-socket.on('remove_stock', stock =>
-	store.dispatch(removeStock(stock))
+socket.on('remove_stock_remote', stock =>
+	store.dispatch(removeStockRemote(stock))
 );
 
 //called in error case

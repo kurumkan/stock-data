@@ -1,7 +1,7 @@
-export function addStockRemoteOrigin(stock){			
+export function addStockRemote(stock){			
 	stock.color = generateColor(3);
 	return {
-		type: 'ADD_STOCK_REMOTE_ORIGIN',	
+		type: 'ADD_STOCK_REMOTE',	
 		payload: stock
 	}
 }
@@ -21,6 +21,13 @@ export function setNewStocks(stocks){
 export function removeStock(code){		
 	return {
 		type: 'REMOVE_STOCK',
+		payload: code
+	}
+}
+
+export function removeStockRemote(code){
+	return {
+		type: 'REMOVE_STOCK_REMOTE',
 		payload: code
 	}
 }

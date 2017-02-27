@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 var cors = require('cors');
+require('dotenv').config()
 
 var path =require("path");
 var {requestQuandl, requestQuandlBulk} = require("./util_helpers.js");
@@ -37,6 +38,7 @@ function updateStocks(){
 			var codes = stocks.map(stock=>stock.code)			
 			requestQuandlBulk(codes, function(error, result){			
 				if(error){
+					console.log('************requestBulk')
 					console.log(error)
 				}else{			
 					var newStocks = result.map((r)=>{
@@ -77,7 +79,12 @@ var clients = [];
 io.on('connect', function(socket){	
 	clients.push(socket);		
 	Stock.find({}, (error, stocks)=>{
-		socket.emit('set_new_stocks', stocks);	
+		if(error){
+			console.log(error);
+			socket.emit('set_error', 'Internal Server Error');
+		}
+		else	
+			socket.emit('set_new_stocks', stocks);	
 	});
 
 	// When socket disconnects, remove it from the list:
@@ -95,7 +102,7 @@ io.on('connect', function(socket){
 				console.log(error);
 				if(error.response&&error.response.status==404)
 					socket.emit('set_error', 'Incorrect or not existing stock code');
-				else{					
+				else{						
 					socket.emit('set_error', 'Internal Server Error');
 				}
 			}else{				
@@ -122,7 +129,7 @@ io.on('connect', function(socket){
 	socket.on('remove_stock', function(code){			
 		clients.map(function(client){												
 			if(client.id!=socket.id)							
-				client.emit('remove_stock', code);			
+				client.emit('remove_stock_remote', code);			
 		});			
 		Stock.findOneAndRemove({code: code}, function(error, result){
 			if(error){				
