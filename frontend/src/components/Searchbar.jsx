@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {sendStockRemote} from 'actions/Actions';
 import Alert from 'components/Alert'
 
-class Searchbar extends Component{
+export class Searchbar extends Component{
 	constructor(props) {
 		super(props);
 		this.state={

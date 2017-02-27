@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {removeError} from 'actions/Actions';
 
-class Alert extends Component{
-	handleClick(){
+export class Alert extends Component{
+	handleClick(){		
 		this.props.removeError();
 	}
 	render() {

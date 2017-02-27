@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-class Chart extends Component{		
+export class Chart extends Component{		
 	componentWillUpdate(nextProps, nextState) {
 		var {stocks} = nextProps;				
 		var chartData=[];

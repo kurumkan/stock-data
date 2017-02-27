@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import StockListItem from 'components/StockListItem';
 
-class StockList extends Component{	
+export class StockList extends Component{	
 	render() {				
 		var {stocks} = this.props;			
 		if(!stocks.length)

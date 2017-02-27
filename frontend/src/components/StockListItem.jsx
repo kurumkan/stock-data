@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {removeStock} from 'actions/Actions';
 
-class StockListItem extends Component{	
+export class StockListItem extends Component{	
 	handleClick(code){		
 		this.props.removeStock(code);
 	}
