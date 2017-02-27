@@ -11,7 +11,7 @@ export class StockListItem extends Component{
 		var {stock} = this.props;					
 		var style = {borderLeft: stock.color+' 5px solid'}; 
 		return (
-			<div className='col-sm-6 col-md-4'>				
+			<div className='col-sm-6 col-md-4 stock-list-item'>				
 				<div className='bs-callout' style={style}>									
 					<div className='row'>
 						<h4 className='pull-left'>{stock.code}</h4>
