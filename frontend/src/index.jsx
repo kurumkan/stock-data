@@ -18,9 +18,7 @@ import NotFound404 from 'components/NotFound404';
 import {addStockRemote, setNewStocks, removeStockRemote, setError} from 'actions/Actions';
 
 //connect to backend
-var url = window.location.host;
-console.log(url)
-var socket = io(url);
+var socket = io(window.location.host);
 //custom middleware - ineraction with backend via socket.io
 import RemoteActionMiddleware from './middlewares/RemoteActionMiddleware';
 
@@ -35,7 +33,7 @@ socket.on('set_new_stocks', stocks =>
 
 //called when some of the clients adds a valid stock code
 socket.on('spread_new_stock', stock =>
-	store.dispatch(addStockRemoteOrigin(stock))
+	store.dispatch(addStockRemote(stock))
 );
 
 //called when some of the clients removes stock code
