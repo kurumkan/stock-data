@@ -146,7 +146,9 @@
 	__webpack_require__(332);
 
 	//connect to backend
-	var socket = (0, _socket2.default)('http://localhost:' + (process.env.PORT || 8080));
+	var url = window.location.protocol + "//" + window.location.hostname + ":" + (process.env.PORT || 8080);
+	console.log(url);
+	var socket = (0, _socket2.default)(url);
 	//custom middleware - ineraction with backend via socket.io
 
 
