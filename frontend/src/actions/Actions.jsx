@@ -35,13 +35,10 @@ export function removeStockRemote(code){
 }
 
 export function sendStockRemote(code){		
-	return function(dispatch){
-		dispatch({
-			type: 'SEND_STOCK_REMOTE',
-			payload: code
-		});
-		dispatch(removeError());
-	}			
+	return {
+		type: 'SEND_STOCK_REMOTE',
+		payload: code
+	}	
 }
 
 
